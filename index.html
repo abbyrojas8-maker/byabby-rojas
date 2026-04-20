@@ -220,16 +220,21 @@
     ════════════════════════════════ */
     #productos { background: var(--white); padding: 5rem 0; }
     .filter-row {
-      display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem;
+      display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem;
     }
     .filter-tab {
-      padding: .48rem 1.05rem; border-radius: 50px;
+      display: flex; flex-direction: column; align-items: center; gap: .3rem;
+      width: 72px; padding: .7rem .4rem .55rem;
+      border-radius: 16px;
       border: 2px solid var(--border); background: var(--white);
-      color: var(--text); font-family: 'Nunito', sans-serif; font-weight: 700; font-size: .84rem;
+      color: var(--text-muted); font-family: 'Nunito', sans-serif; font-weight: 700; font-size: .65rem;
       cursor: pointer; transition: all var(--transition);
+      line-height: 1.2;
     }
+    .filter-tab .fi { font-size: 1.6rem; line-height: 1; }
     .filter-tab:hover, .filter-tab.active {
       background: var(--plum); border-color: var(--plum); color: var(--white);
+      transform: translateY(-3px); box-shadow: 0 6px 20px rgba(106,5,114,.3);
     }
     .products-grid {
       display: grid;
@@ -246,10 +251,17 @@
     .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
     .product-card.hidden { display: none; }
     .product-thumb {
-      height: 132px;
+      height: 210px;
       background: linear-gradient(135deg, var(--bg-alt), var(--bg-light));
       display: flex; align-items: center; justify-content: center; position: relative;
+      overflow: hidden;
     }
+    .product-thumb img.pimg {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center center;
+      transition: transform .4s ease;
+    }
+    .product-card:hover .product-thumb img.pimg { transform: scale(1.06); }
     .product-thumb svg.picon { width: 64px; height: 64px; opacity: .55; }
     .card-badges { position: absolute; top: 8px; left: 8px; display: flex; flex-direction: column; gap: 4px; }
     .cbadge {
@@ -649,12 +661,12 @@
       <h2 class="section-title">Todos los productos</h2>
     </div>
     <div class="filter-row fade-in" id="filterRow">
-      <button class="filter-tab active" data-cat="all">Todos</button>
-      <button class="filter-tab" data-cat="tazas">Tazas y Bebidas</button>
-      <button class="filter-tab" data-cat="llaveros">Llaveros y Accesorios</button>
-      <button class="filter-tab" data-cat="stickers">Stickers y Papelería</button>
-      <button class="filter-tab" data-cat="bolsos">Bolsos y Textiles</button>
-      <button class="filter-tab" data-cat="personalización">Personalización</button>
+      <button class="filter-tab active" data-cat="all" aria-label="Todos"><span class="fi">✨</span>Todos</button>
+      <button class="filter-tab" data-cat="tazas" aria-label="Tazas y Bebidas"><span class="fi">☕</span>Bebidas</button>
+      <button class="filter-tab" data-cat="llaveros" aria-label="Llaveros y Accesorios"><span class="fi">🔑</span>Llaveros</button>
+      <button class="filter-tab" data-cat="stickers" aria-label="Stickers y Papelería"><span class="fi">🎨</span>Stickers</button>
+      <button class="filter-tab" data-cat="bolsos" aria-label="Bolsos y Textiles"><span class="fi">👜</span>Textiles</button>
+      <button class="filter-tab" data-cat="personalización" aria-label="Personalización"><span class="fi">✏️</span>Custom</button>
     </div>
     <div class="products-grid" id="productsGrid"></div>
     <!-- Personalización section -->
@@ -876,50 +888,53 @@ function waLink(product) {
 
 const products = [
   // Tazas y Bebidas
-  { id:'taza-clasica', name:'Taza clásica', cat:'tazas', price:150, wholesale:95, wMin:6, badge:'popular', occasions:['mama','papa','cumpleanos','egresados','cualquier'] },
-  { id:'taza-color', name:'Taza interior/asa de color', cat:'tazas', price:160, wholesale:100, wMin:6, badge:null, occasions:['mama','cumpleanos','cualquier'] },
-  { id:'taza-vidrio', name:'Taza de vidrio', cat:'tazas', price:180, wholesale:150, wMin:6, badge:null, occasions:['pareja','mama','cualquier'] },
-  { id:'taza-ceramica', name:'Taza cerámica colores pastel', cat:'tazas', price:200, wholesale:180, wMin:6, badge:null, occasions:['mama','cumpleanos','cualquier'] },
-  { id:'caramaola-500', name:'Caramaola 500ml', cat:'tazas', price:320, wholesale:290, wMin:6, badge:null, occasions:['papa','cumpleanos','cualquier'] },
-  { id:'caramaola-750', name:'Caramaola 750ml', cat:'tazas', price:280, wholesale:250, wMin:6, badge:null, occasions:['papa','cualquier'] },
-  { id:'botella-650', name:'Botella 650ml', cat:'tazas', price:280, wholesale:210, wMin:6, badge:null, occasions:['papa','cumpleanos','cualquier'] },
-  { id:'botella-acero', name:'Botella acero inoxidable 750ml', cat:'tazas', price:600, wholesale:550, wMin:6, badge:null, occasions:['papa','egresados','cualquier'] },
-  { id:'vaso-antiderrame', name:'Vaso antiderrame 850ml', cat:'tazas', price:680, wholesale:500, wMin:6, badge:null, occasions:['pareja','mama','cualquier'] },
-  { id:'vaso-termico-400', name:'Vaso térmico 400ml', cat:'tazas', price:500, wholesale:450, wMin:6, badge:null, occasions:['mama','cumpleanos','cualquier'] },
-  { id:'vaso-termico-750', name:'Vaso térmico 750ml', cat:'tazas', price:450, wholesale:400, wMin:6, badge:null, occasions:['mama','papa','cualquier'] },
-  { id:'vaso-termico-1200', name:'Vaso térmico 1.2L', cat:'tazas', price:680, wholesale:500, wMin:6, badge:'popular', occasions:['papa','egresados','cualquier'] },
-  { id:'vaso-plastico', name:'Vaso plástico 700ml', cat:'tazas', price:140, wholesale:100, wMin:6, badge:null, occasions:['cumpleanos','cualquier'] },
-  { id:'vaso-multi', name:'Vaso multifunción', cat:'tazas', price:380, wholesale:350, wMin:6, badge:null, occasions:['cualquier'] },
-  { id:'jarra-500', name:'Jarra cervecera 500ml', cat:'tazas', price:300, wholesale:250, wMin:6, badge:null, occasions:['papa','cumpleanos','cualquier'] },
-  { id:'jarra-acero', name:'Jarra cervecera acero 700ml', cat:'tazas', price:650, wholesale:590, wMin:6, badge:null, occasions:['papa','cualquier'] },
-  { id:'copas-vino', name:'Par copas de vino 490ml', cat:'tazas', price:380, wholesale:null, priceNote:'el par', badge:null, occasions:['pareja','mama','cumpleanos','cualquier'] },
-  { id:'copas-champagne', name:'Par copas de champagne', cat:'tazas', price:350, wholesale:null, priceNote:'el par', badge:null, occasions:['pareja','cumpleanos','cualquier'] },
-  { id:'botella-vino', name:'Botella de vino personalizada', cat:'tazas', price:480, wholesale:null, badge:null, occasions:['pareja','cumpleanos','mama','cualquier'] },
+  { id:'taza-clasica',    img:'img1/15.png', name:'Taza clásica',                    cat:'tazas',   price:150, wholesale:95,  wMin:6,  badge:'popular', occasions:['mama','papa','cumpleanos','egresados','cualquier'] },
+  { id:'taza-color',      img:'img1/26.png', name:'Taza interior/asa de color',       cat:'tazas',   price:160, wholesale:100, wMin:6,  badge:null,      occasions:['mama','cumpleanos','cualquier'] },
+  { id:'taza-vidrio',     img:'img1/21.png', name:'Taza de vidrio',                   cat:'tazas',   price:180, wholesale:150, wMin:6,  badge:null,      occasions:['pareja','mama','cualquier'] },
+  { id:'taza-ceramica',   img:'img1/29.png', name:'Taza cerámica colores pastel',     cat:'tazas',   price:200, wholesale:180, wMin:6,  badge:null,      occasions:['mama','cumpleanos','cualquier'] },
+  { id:'caramaola-500',   img:'img1/19.png', name:'Caramaola 500ml',                  cat:'tazas',   price:320, wholesale:290, wMin:6,  badge:null,      occasions:['papa','cumpleanos','cualquier'] },
+  { id:'caramaola-750',   img:'img1/20.png', name:'Caramaola 750ml',                  cat:'tazas',   price:280, wholesale:250, wMin:6,  badge:null,      occasions:['papa','cualquier'] },
+  { id:'botella-650',     img:'img1/25.png', name:'Botella 650ml',                    cat:'tazas',   price:280, wholesale:210, wMin:6,  badge:null,      occasions:['papa','cumpleanos','cualquier'] },
+  { id:'botella-acero',   img:'img1/24.png', name:'Botella acero inoxidable 750ml',   cat:'tazas',   price:600, wholesale:550, wMin:6,  badge:null,      occasions:['papa','egresados','cualquier'] },
+  { id:'vaso-antiderrame',img:'img1/27.png', name:'Vaso antiderrame 850ml',           cat:'tazas',   price:680, wholesale:500, wMin:6,  badge:null,      occasions:['pareja','mama','cualquier'] },
+  { id:'vaso-termico-400',img:'img1/28.png', name:'Vaso térmico 400ml',               cat:'tazas',   price:500, wholesale:450, wMin:6,  badge:null,      occasions:['mama','cumpleanos','cualquier'] },
+  { id:'vaso-termico-750',img:'img1/17.png', name:'Vaso térmico 750ml',               cat:'tazas',   price:450, wholesale:400, wMin:6,  badge:null,      occasions:['mama','papa','cualquier'] },
+  { id:'vaso-termico-1200',img:'img1/34.png',name:'Vaso térmico 1.2L',                cat:'tazas',   price:680, wholesale:500, wMin:6,  badge:'popular', occasions:['papa','egresados','cualquier'] },
+  { id:'vaso-plastico',   img:'img1/23.png', name:'Vaso plástico 700ml',              cat:'tazas',   price:140, wholesale:100, wMin:6,  badge:null,      occasions:['cumpleanos','cualquier'] },
+  { id:'vaso-multi',      img:'img1/40.png', name:'Vaso multifunción',                cat:'tazas',   price:380, wholesale:350, wMin:6,  badge:null,      occasions:['cualquier'] },
+  { id:'jarra-500',       img:'img1/22.png', name:'Jarra cervecera 500ml',            cat:'tazas',   price:300, wholesale:250, wMin:6,  badge:null,      occasions:['papa','cumpleanos','cualquier'] },
+  { id:'jarra-acero',     img:'img1/33.png', name:'Jarra cervecera acero 700ml',      cat:'tazas',   price:650, wholesale:590, wMin:6,  badge:null,      occasions:['papa','cualquier'] },
+  { id:'copas-vino',      img:'img1/30.png', name:'Par copas de vino 490ml',          cat:'tazas',   price:380, wholesale:null, priceNote:'el par', badge:null, occasions:['pareja','mama','cumpleanos','cualquier'] },
+  { id:'copas-champagne', img:'img1/31.png', name:'Par copas de champagne',           cat:'tazas',   price:350, wholesale:null, priceNote:'el par', badge:null, occasions:['pareja','cumpleanos','cualquier'] },
+  { id:'botella-vino',    img:'img1/32.png', name:'Botella de vino personalizada',    cat:'tazas',   price:480, wholesale:null, badge:null,      occasions:['pareja','cumpleanos','mama','cualquier'] },
   // Llaveros y Accesorios
-  { id:'llavero-doble', name:'Llavero acrílico doble faz', cat:'llaveros', price:25, wholesale:20, wMin:10, badge:'popular', occasions:['mama','papa','pareja','egresados','cumpleanos','cualquier'] },
-  { id:'llavero-redondo', name:'Llavero acrílico redondo', cat:'llaveros', price:65, wholesale:60, wMin:6, badge:null, occasions:['mama','papa','pareja','egresados','cumpleanos','cualquier'] },
-  { id:'llavero-cinta', name:'Llavero en cinta de algodón', cat:'llaveros', price:90, wholesale:null, badge:'new', occasions:['mama','pareja','egresados','cualquier'] },
-  { id:'marca-paginas', name:'Marca páginas personalizado', cat:'llaveros', price:100, wholesale:null, badge:'new', occasions:['mama','egresados','cualquier'] },
-  { id:'lapicera', name:'Lapicera personalizada', cat:'llaveros', price:45, wholesale:null, badge:'new', occasions:['papa','egresados','empresas','cualquier'] },
+  { id:'llavero-doble',   img:'img1/6.png',  name:'Llavero acrílico doble faz',       cat:'llaveros',price:25,  wholesale:20,  wMin:10, badge:'popular', occasions:['mama','papa','pareja','egresados','cumpleanos','cualquier'] },
+  { id:'llavero-redondo', img:'img1/7.png',  name:'Llavero acrílico redondo',         cat:'llaveros',price:65,  wholesale:60,  wMin:6,  badge:null,      occasions:['mama','papa','pareja','egresados','cumpleanos','cualquier'] },
+  { id:'llavero-cinta',   img:'img1/42.png', name:'Llavero en cinta de algodón',      cat:'llaveros',price:90,  wholesale:null, badge:'new',     occasions:['mama','pareja','egresados','cualquier'] },
+  { id:'marca-paginas',   img:'img1/41.png', name:'Marca páginas personalizado',      cat:'llaveros',price:100, wholesale:null, badge:'new',     occasions:['mama','egresados','cualquier'] },
+  { id:'lapicera',        img:'img1/43.png', name:'Lapicera personalizada',           cat:'llaveros',price:45,  wholesale:null, badge:'new',     occasions:['papa','egresados','empresas','cualquier'] },
   // Stickers y Papelería
-  { id:'sticker-4', name:'Stickers 4cm', cat:'stickers', price:5, wholesale:4, wMin:50, priceNote:'c/u (10-49 u)', badge:null, occasions:['cumpleanos','empresas','cualquier'] },
-  { id:'sticker-5', name:'Stickers 5cm', cat:'stickers', price:6, wholesale:5, wMin:50, priceNote:'c/u (10-49 u)', badge:null, occasions:['cumpleanos','empresas','cualquier'] },
-  { id:'sticker-8', name:'Stickers 8cm', cat:'stickers', price:9, wholesale:8, wMin:50, priceNote:'c/u (10-49 u)', badge:null, occasions:['cumpleanos','egresados','empresas','cualquier'] },
-  { id:'polaroid-1', name:'Foto Polaroid 5×15cm', cat:'stickers', price:20, wholesale:null, badge:null, occasions:['pareja','mama','cumpleanos','cualquier'] },
-  { id:'polaroid-2', name:'Foto Polaroid 9.5×6.1cm', cat:'stickers', price:15, wholesale:null, badge:null, occasions:['pareja','mama','cumpleanos','cualquier'] },
-  { id:'polaroid-3', name:'Foto Polaroid 9.5×11.3cm', cat:'stickers', price:17, wholesale:null, badge:null, occasions:['pareja','mama','cumpleanos','cualquier'] },
-  { id:'polaroid-4', name:'Foto Polaroid 9.5×14.5cm', cat:'stickers', price:25, wholesale:null, badge:null, occasions:['pareja','mama','cumpleanos','cualquier'] },
-  { id:'porta-retrato', name:'Porta retrato personalizado', cat:'stickers', price:350, wholesale:null, badge:null, occasions:['mama','papa','pareja','cumpleanos','cualquier'] },
-  { id:'libreta', name:'Libreta personalizada', cat:'stickers', price:350, wholesale:null, badge:null, occasions:['mama','papa','egresados','cumpleanos','cualquier'] },
+  { id:'sticker-4',       img:'img1/8.png',  name:'Stickers 4cm',                    cat:'stickers',price:5,   wholesale:4,   wMin:50, priceNote:'c/u (10-49 u)', badge:null, occasions:['cumpleanos','empresas','cualquier'] },
+  { id:'sticker-5',       img:'img1/8.png',  name:'Stickers 5cm',                    cat:'stickers',price:6,   wholesale:5,   wMin:50, priceNote:'c/u (10-49 u)', badge:null, occasions:['cumpleanos','empresas','cualquier'] },
+  { id:'sticker-8',       img:'img1/8.png',  name:'Stickers 8cm',                    cat:'stickers',price:9,   wholesale:8,   wMin:50, priceNote:'c/u (10-49 u)', badge:null, occasions:['cumpleanos','egresados','empresas','cualquier'] },
+  { id:'polaroid-1',      img:'img1/9.png',  name:'Foto Polaroid 5×15cm',            cat:'stickers',price:20,  wholesale:null, badge:null,      occasions:['pareja','mama','cumpleanos','cualquier'] },
+  { id:'polaroid-2',      img:'img1/10.png', name:'Foto Polaroid 9.5×6.1cm',         cat:'stickers',price:15,  wholesale:null, badge:null,      occasions:['pareja','mama','cumpleanos','cualquier'] },
+  { id:'polaroid-3',      img:'img1/11.png', name:'Foto Polaroid 9.5×11.3cm',        cat:'stickers',price:17,  wholesale:null, badge:null,      occasions:['pareja','mama','cumpleanos','cualquier'] },
+  { id:'polaroid-4',      img:'img1/12.png', name:'Foto Polaroid 9.5×14.5cm',        cat:'stickers',price:25,  wholesale:null, badge:null,      occasions:['pareja','mama','cumpleanos','cualquier'] },
+  { id:'porta-retrato',   img:'img1/13.png', name:'Porta retrato personalizado',      cat:'stickers',price:350, wholesale:null, badge:null,      occasions:['mama','papa','pareja','cumpleanos','cualquier'] },
+  { id:'libreta',         img:'img1/14.png', name:'Libreta personalizada',            cat:'stickers',price:350, wholesale:null, badge:null,      occasions:['mama','papa','egresados','cumpleanos','cualquier'] },
   // Bolsos y Textiles
-  { id:'bolso-chico', name:'Bolso de lino chico (24×30×8cm)', cat:'bolsos', price:130, wholesale:90, wMin:6, badge:null, occasions:['mama','cumpleanos','cualquier'] },
-  { id:'bolso-mediano', name:'Bolso de lino mediano (31×39×8cm)', cat:'bolsos', price:160, wholesale:120, wMin:6, badge:null, occasions:['mama','egresados','empresas','cualquier'] },
-  { id:'bolso-grande', name:'Bolso de lino grande (37×46×11cm)', cat:'bolsos', price:190, wholesale:150, wMin:6, badge:'popular', occasions:['mama','egresados','empresas','cualquier'] },
-  { id:'bolso-yute', name:'Bolso de yute', cat:'bolsos', price:480, wholesale:430, wMin:6, badge:null, occasions:['mama','pareja','cualquier'] },
-  { id:'gorro-trucker', name:'Gorro trucker adulto', cat:'bolsos', price:150, wholesale:110, wMin:6, badge:null, occasions:['papa','egresados','cualquier'] },
-  { id:'gorro-ninos', name:'Gorro trucker niños', cat:'bolsos', price:150, wholesale:110, wMin:6, badge:null, occasions:['cumpleanos','cualquier'] },
-  { id:'gorro-premium', name:'Gorro premium adulto', cat:'bolsos', price:490, wholesale:370, wMin:6, badge:null, occasions:['papa','egresados','cualquier'] },
-  { id:'remera', name:'Remera algodón adulto (unisex)', cat:'bolsos', price:750, wholesale:690, wMin:6, badge:null, occasions:['papa','egresados','empresas','cualquier'] },
+  { id:'bolso-chico',     img:'img1/38.png', name:'Bolso de lino chico (24×30×8cm)', cat:'bolsos',  price:130, wholesale:90,  wMin:6,  badge:null,      occasions:['mama','cumpleanos','cualquier'] },
+  { id:'bolso-mediano',   img:'img1/38.png', name:'Bolso de lino mediano (31×39×8cm)',cat:'bolsos',  price:160, wholesale:120, wMin:6,  badge:null,      occasions:['mama','egresados','empresas','cualquier'] },
+  { id:'bolso-grande',    img:'img1/38.png', name:'Bolso de lino grande (37×46×11cm)',cat:'bolsos',  price:190, wholesale:150, wMin:6,  badge:'popular', occasions:['mama','egresados','empresas','cualquier'] },
+  { id:'bolso-yute',      img:'img1/39.png', name:'Bolso de yute',                   cat:'bolsos',  price:480, wholesale:430, wMin:6,  badge:null,      occasions:['mama','pareja','cualquier'] },
+  { id:'gorro-trucker',   img:'img1/35.png', name:'Gorro trucker adulto',             cat:'bolsos',  price:150, wholesale:110, wMin:6,  badge:null,      occasions:['papa','egresados','cualquier'] },
+  { id:'gorro-ninos',     img:'img1/36.png', name:'Gorro trucker niños',              cat:'bolsos',  price:150, wholesale:110, wMin:6,  badge:null,      occasions:['cumpleanos','cualquier'] },
+  { id:'gorro-premium',   img:'img1/37.png', name:'Gorro premium adulto',             cat:'bolsos',  price:490, wholesale:370, wMin:6,  badge:null,      occasions:['papa','egresados','cualquier'] },
+  { id:'remera',          img:'img1/1.png',  name:'Remera algodón adulto (unisex)',   cat:'bolsos',  price:750, wholesale:690, wMin:6,  badge:null,      occasions:['papa','egresados','empresas','cualquier'] },
+  { id:'remera-bicolor',  img:'img1/3.png',  name:'Camiseta subliprint adulto (85% poliéster)', cat:'bolsos', price:450, wholesale:390, wMin:6, badge:'new', occasions:['papa','egresados','empresas','cualquier'] },
+  { id:'remera-ninos',    img:'img1/4.png',  name:'Camiseta subliprint niños (85% poliéster)',  cat:'bolsos', price:380, wholesale:330, wMin:6, badge:'new', occasions:['cumpleanos','cualquier'] },
+  { id:'buzo-canguro',    img:'img1/5.png',  name:'Buzo canguro deportivo unisex',              cat:'bolsos', price:1300, wholesale:1000, wMin:6, badge:'new', occasions:['papa','egresados','empresas','cualquier'] },
 ];
 
 const combos = [
@@ -934,13 +949,13 @@ const combos = [
 ];
 
 /* ══════════════════════════════════
-   ICONS
+   CATEGORY IMAGES
 ══════════════════════════════════ */
-const icons = {
-  tazas: `<svg class="picon" viewBox="0 0 24 24" fill="none" stroke="#6A0572" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>`,
-  llaveros: `<svg class="picon" viewBox="0 0 24 24" fill="none" stroke="#6A0572" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg>`,
-  stickers: `<svg class="picon" viewBox="0 0 24 24" fill="none" stroke="#6A0572" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>`,
-  bolsos: `<svg class="picon" viewBox="0 0 24 24" fill="none" stroke="#6A0572" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
+const catImages = {
+  tazas:    'img/tazas.jpg',
+  llaveros: 'img/llaveros.jpg',
+  stickers: 'img/stickers.jpg',
+  bolsos:   'img/textiles.jpg',
 };
 
 const heartSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="#FF5E5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
@@ -957,10 +972,11 @@ function renderCard(p) {
     : p.badge === 'new'
     ? `<span class="cbadge cbadge-new">Nuevo</span>`
     : '';
+  const imgSrc = p.img || catImages[p.cat] || '';
   return `
     <div class="product-card fade-in" data-cat="${p.cat}" data-id="${p.id}" data-occasions="${p.occasions.join(',')}">
       <div class="product-thumb">
-        ${icons[p.cat] || ''}
+        ${imgSrc ? `<img class="pimg" src="${imgSrc}" alt="${p.name}" loading="lazy">` : ''}
         <div class="card-badges">${badgeHtml}</div>
         <button class="heart-btn" aria-label="Guardar en favoritos" onclick="toggleHeart(this)">${heartSVG}</button>
       </div>
