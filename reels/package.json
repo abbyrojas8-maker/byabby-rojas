@@ -1,0 +1,24 @@
+{
+  "name": "byabby-reels",
+  "version": "1.0.0",
+  "description": "Reels automáticos para ByAbby Rojas con avatar IA",
+  "scripts": {
+    "start": "npx remotion studio",
+    "build": "npx remotion render",
+    "render:reel1": "npx remotion render src/index.ts ReelProducto --output out/reel-producto.mp4",
+    "render:reel2": "npx remotion render src/index.ts ReelTestimonio --output out/reel-testimonio.mp4",
+    "render:all": "node scripts/render-daily.mjs",
+    "generate": "node scripts/generate-content.mjs"
+  },
+  "dependencies": {
+    "@remotion/player": "^4.0.0",
+    "remotion": "^4.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@types/react": "^18.0.0",
+    "typescript": "^5.0.0"
+  }
+}
